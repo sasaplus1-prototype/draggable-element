@@ -33,8 +33,8 @@
     const y = isTouch ? event.touches[0].clientY : event.clientY;
 
     console.log(event.clientY);
-    console.log(event.touches[0]);
-    console.log(event.changedTouches[0]);
+    console.log(event.touches);
+    console.log(event.changedTouches);
 
     panel.style.top = y + 'px';
   }
