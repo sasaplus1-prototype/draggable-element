@@ -8,6 +8,8 @@
   const panel = document.querySelector('.panel');
   const splitter = document.querySelector('.splitter');
 
+  const isTouch = navigator.maxTouchPoints > 1;
+
   let isDragging = false;
 
   function onDown(event) {
@@ -28,13 +30,16 @@
     event.preventDefault();
     event.stopPropagation();
 
-    panel.style.top = event.clientY + 'px';
-  }
+    const y = isTouch ? event.touches[0].clientY : event.clientY;
 
-  const isTouch = navigator.maxTouchPoints > 1;
+    console.log(event.clientY);
+    console.log(event.touches[0]);
+    console.log(event.changedTouches[0]);
+
+    panel.style.top = y + 'px';
+  }
 
   document.body.addEventListener(isTouch ? 'touchstart' : 'mousedown', onDown, true);
   document.body.addEventListener(isTouch ? 'touchend' : 'mouseup', onUp, true);
-  document.body.addEventListener(isTouch ? 'touchmove' : 'mousemove', onMove, true);
-
+  document.body.addEventListener(isTouch ? 'touchmove' : 'mousemove', onMove, { capture: true, passive: false });
 }());
