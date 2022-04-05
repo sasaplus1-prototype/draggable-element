@@ -1,20 +1,26 @@
 (function(){
   'use strict';
 
+  // pointerdown
+  // pointermove
+  // pointerup
+
   const panel = document.querySelector('.panel');
   const splitter = document.querySelector('.splitter');
 
   let isDragging = false;
 
-  document.body.addEventListener('mousedown', function(event) {
+  function onDown(event) {
     if (event.target === splitter) {
       isDragging = true;
     }
-  }, true);
-  document.body.addEventListener('mouseup', function() {
+  }
+
+  function onUp() {
     isDragging = false;
-  }, true);
-  document.body.addEventListener('mousemove', function(event) {
+  }
+
+  function onMove(event) {
     if (!isDragging) {
       return;
     }
@@ -23,6 +29,12 @@
     event.stopPropagation();
 
     panel.style.top = event.clientY + 'px';
-  }, true);
+  }
+
+  const isTouch = navigator.maxTouchPoints > 1;
+
+  document.body.addEventListener(isTouch ? 'touchstart' : 'mousedown', onDown, true);
+  document.body.addEventListener(isTouch ? 'touchend' : 'mouseup', onUp, true);
+  document.body.addEventListener(isTouch ? 'touchmove' : 'mousemove', onMove, true);
 
 }());
